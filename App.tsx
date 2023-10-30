@@ -7,6 +7,8 @@ import React from 'react';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
 
 // Types
 import { StackAuthType, StackType, TabType } from './types/RouteTypes';
@@ -14,8 +16,8 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes';
 // Icons
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useState } from 'react';
-import Auth from './pages/Auth/Auth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useAuth } from './hooks/useAuth';
 
 // Navigation
 const Tab = createBottomTabNavigator<TabType>()
@@ -43,12 +45,12 @@ const ProfileStackScreen = () => {
 
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(true)
+  //const [isLogin, setIsLogin] = useState(false)
+  const { user } = useAuth()
 
   return (
     <NavigationContainer>
-      {isLogin ? (
-        <>
+      {user ? (
         <Tab.Navigator initialRouteName='HomeScreen'>
           <Tab.Screen
             name="HomeScreen"
@@ -71,12 +73,10 @@ export default function App() {
                 title: 'Profile'
               }} />
         </Tab.Navigator>
-            
-         </>
-        
       ) : (
-        <StackAuth.Navigator initialRouteName='Auth'>
-          <StackAuth.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
+        <StackAuth.Navigator initialRouteName='Login'>
+          <StackAuth.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <StackAuth.Screen name="Register" component={Register} options={{ headerShown: false }} />
         </StackAuth.Navigator>
       )}
     </NavigationContainer>
