@@ -13,6 +13,7 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes';
 // Icons
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useState } from 'react';
+import { useAuth } from './hooks/useAuth';
 
 // Navigation
 const Tab = createBottomTabNavigator<TabType>()
@@ -28,11 +29,12 @@ const HomeStackScreen = () => {
 }
 
 export default function App() {
-  const [isLogin, setIsLogin] = useState(false)
+  //const [isLogin, setIsLogin] = useState(false)
+  const { user } = useAuth()
 
   return (
     <NavigationContainer>
-      {isLogin ? (
+      {user ? (
         <Tab.Navigator initialRouteName='HomeScreen'>
           <Tab.Screen 
             name="HomeScreen" 

@@ -1,7 +1,22 @@
 import { Pressable, Text, TextInput, View } from "react-native"
 import { Entypo } from '@expo/vector-icons';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { firebaseapp } from "../../FirebaseConfig";
+import { useState } from "react";
 
 const LoginForm = () => {
+    const auth = getAuth(firebaseapp);
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+
+    const login = async () => {
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View className="p-4 w-full">
             <View className="mb-4">
@@ -13,6 +28,8 @@ const LoginForm = () => {
                     <TextInput 
                         className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400" 
                         placeholder="Entrez votre adresse mail"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </View>
             </View>
@@ -26,12 +43,14 @@ const LoginForm = () => {
                     <TextInput 
                         secureTextEntry={true}
                         className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400" 
-                        placeholder="Entrez votre mot de passe" 
+                        placeholder="Entrez votre mot de passe"
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
                     />
                 </View>
             </View>
 
-            <Pressable className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md">
+            <Pressable onPress={login} className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md">
                 <Text className="text-center text-white font-semibold">Connexion</Text>
             </Pressable>
         </View>
