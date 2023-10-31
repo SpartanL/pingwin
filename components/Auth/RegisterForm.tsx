@@ -17,6 +17,8 @@ const RegisterForm = () => {
     let userid = ''
     const adddata = async (uid: string) => {
         set(ref(db, 'Users/' + uid), {
+            image: "https://i.imgflip.com/7nwv7w.jpg",
+            bio: "Je suis un pingouin",
             email: email,
             nom: user,
             pseudo: '@' + user.normalize('NFKD') 
