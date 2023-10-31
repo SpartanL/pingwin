@@ -1,7 +1,7 @@
 import { Pressable, Text, TextInput, View } from "react-native"
 import { Entypo } from '@expo/vector-icons';
 import { firebaseapp, db } from "../../FirebaseConfig";
-import { getAuth, onAuthStateChanged, User, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import React, { useState } from "react";
 import { onValue, ref, set } from "firebase/database";
 
@@ -14,23 +14,32 @@ const RegisterForm = () => {
 
     //Firebase
 
-    const adddata = async () => {
-        set(ref(db, 'Users/' + user), {
+    let userid = ''
+    const adddata = async (uid: string) => {
+        set(ref(db, 'Users/' + uid), {
             email: email,
             nom: user,
-            pseudo: '@' + user,
+            pseudo: '@' + user.normalize('NFKD') 
+                .replace(/[\u0300-\u036f]/g, '') 
+                .trim() 
+                .toLowerCase() 
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-') 
+                .replace(/-+/g, '-'),
         })
     }
 
     const handleRegister = async () => {
         try {
-            await createUserWithEmailAndPassword(auth, email, password)
+            await createUserWithEmailAndPassword(auth, email, password).then((UserCredential) => {
+                userid = UserCredential.user.uid;
+            })
         }
         catch (error) {
-            alert('Un compte existe déjà avec cette adresse mail')
+            alert(error.message)
         }
         try {
-            await adddata()
+            await adddata(userid)
         } catch (error) {
             alert('Nom d\'utilisateur incorrect')
         }
