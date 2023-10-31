@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import LoginForm from "../../components/Auth/LoginForm"
 import { LoginNavigationProp, RegisterNavigationProp } from "../../types/RouteTypes";
+import React from "react";
 
 const Login = () => {
     const navigation = useNavigation<RegisterNavigationProp>();
@@ -11,7 +12,7 @@ const Login = () => {
         <SafeAreaView className="flex-1 items-center justify-center">
             <Text className="font-bold text-2xl">Connexion</Text>
             <Text className="text-center">Connectez-vous à Pingwin</Text>
-            
+
             <LoginForm />
 
             <View className="flex flex-row justify-center items-center my-2">
