@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 const Home = () => {
     return (
-        <SafeAreaView className="bg-gray-500" style={styles.AndroidSafeArea}>
+        <SafeAreaView style={styles.AndroidSafeArea}>
             <ScrollView className="">
                 <View className="flex flex-row items-center justify-center">
                     <MaterialCommunityIcons name="penguin" size={45} color="#3498BF" />

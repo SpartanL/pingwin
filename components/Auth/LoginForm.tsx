@@ -5,6 +5,7 @@ import { firebaseapp } from "../../FirebaseConfig";
 import { useState } from "react";
 import React from 'react'
 
+
 const LoginForm = () => {
     const auth = getAuth(firebaseapp);
     const [email, setEmail] = useState<string>('')
@@ -26,8 +27,8 @@ const LoginForm = () => {
                         <Entypo name="email" size={20} color="lightgray" />
                     </View>
 
-                    <TextInput 
-                        className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400" 
+                    <TextInput
+                        className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400"
                         placeholder="Entrez votre adresse mail"
                         value={email}
                         onChangeText={(text) => setEmail(text)}
@@ -41,9 +42,9 @@ const LoginForm = () => {
                         <Entypo name="lock" size={20} color="lightgray" />
                     </View>
 
-                    <TextInput 
+                    <TextInput
                         secureTextEntry={true}
-                        className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400" 
+                        className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400"
                         placeholder="Entrez votre mot de passe"
                         value={password}
                         onChangeText={(text) => setPassword(text)}

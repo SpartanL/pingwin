@@ -61,16 +61,16 @@ export default function App() {
               ),
               title: 'Accueil'
             }} />
-            <Tab.Screen
-              name="ProfileScreen"
-              component={ProfileStackScreen}
-              options={{
-                headerShown: false,
-                tabBarIcon: ({ color, size }) => (
-                  <MaterialCommunityIcons name="penguin" size={size} color={color} />
-                ),
-                title: 'Profile'
-              }} />
+          <Tab.Screen
+            name="ProfileScreen"
+            component={ProfileStackScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="penguin" size={size} color={color} />
+              ),
+              title: 'Profile'
+            }} />
         </Tab.Navigator>
       ) : (
         <StackAuth.Navigator initialRouteName='Login'>
