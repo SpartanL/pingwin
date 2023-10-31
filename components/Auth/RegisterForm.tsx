@@ -1,20 +1,38 @@
 import { Pressable, Text, TextInput, View } from "react-native"
 import { Entypo } from '@expo/vector-icons';
-import { firebaseapp } from "../../FirebaseConfig";
+import { firebaseapp, db } from "../../FirebaseConfig";
 import { getAuth, onAuthStateChanged, User, createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
+import { onValue, ref, set } from "firebase/database";
 
 const RegisterForm = () => {
 
     const auth = getAuth(firebaseapp);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [user, setUser] = useState<string>('')
+
+    //Firebase
+
+    const adddata = async () => {
+        set(ref(db, 'Users/' + user), {
+            email: email,
+            nom: user,
+            pseudo: '@' + user,
+        })
+    }
 
     const handleRegister = async () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password)
+        }
+        catch (error) {
+            alert('Un compte existe déjà avec cette adresse mail')
+        }
+        try {
+            await adddata()
         } catch (error) {
-            alert('Un compte est dèjà associé à cette adresse mail')
+            alert('Nom d\'utilisateur incorrect')
         }
     }
 
@@ -29,8 +47,8 @@ const RegisterForm = () => {
                     <TextInput
                         className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400"
                         placeholder="Entrez votre nom d'utilisateur"
-                        value={email}
-                        onChangeText={(text) => setEmail(text)}
+                        value={user}
+                        onChangeText={(text) => setUser(text)}
                     />
                 </View>
             </View>
@@ -45,6 +63,8 @@ const RegisterForm = () => {
                     <TextInput
                         className="text-sm sm:text-base pl-10 pr-4 rounded-lg border border-gray-300 w-full py-3 focus:border-gray-400"
                         placeholder="Entrez votre adresse mail"
+                        value={email}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </View>
             </View>
