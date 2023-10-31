@@ -5,10 +5,14 @@ import React from 'react';
 
 // Pages
 import Home from './pages/Home';
+import Post from './pages/Post';
 import Profile from './pages/Profile';
 
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+
+// Hooks
+import { useAuth } from './hooks/useAuth';
 
 // Types
 import { StackAuthType, StackType, TabType } from './types/RouteTypes';
@@ -16,7 +20,8 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes';
 // Icons
 import { FontAwesome5 } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from './hooks/useAuth';
+import { Ionicons } from '@expo/vector-icons';
+
 
 // Navigation
 const Tab = createBottomTabNavigator<TabType>()
@@ -27,7 +32,14 @@ const HomeStackScreen = () => {
   return (
     <Stack.Navigator initialRouteName='Home'>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  )
+}
+
+const PostStackScreen = () => {
+  return (
+    <Stack.Navigator initialRouteName='Post'>
+      <Stack.Screen name="Post" component={Post} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
@@ -35,7 +47,6 @@ const HomeStackScreen = () => {
 const ProfileStackScreen = () => {
   return (
     <Stack.Navigator initialRouteName='Profile'>
-      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
@@ -60,7 +71,19 @@ export default function App() {
                 <FontAwesome5 name="igloo" size={size} color={color} />
               ),
               title: 'Accueil'
-            }} />
+            }}
+          />
+          <Tab.Screen
+            name="PostScreen"
+            component={PostStackScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="ios-cube-outline" size={size} color={color} />
+              ),
+              title: 'Post'
+            }}
+          />
           <Tab.Screen
             name="ProfileScreen"
             component={ProfileStackScreen}
@@ -70,7 +93,8 @@ export default function App() {
                 <MaterialCommunityIcons name="penguin" size={size} color={color} />
               ),
               title: 'Profile'
-            }} />
+            }}
+          />
         </Tab.Navigator>
       ) : (
         <StackAuth.Navigator initialRouteName='Login'>
