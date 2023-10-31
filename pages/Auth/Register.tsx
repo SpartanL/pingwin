@@ -1,6 +1,7 @@
 import { Pressable, SafeAreaView, Text, View } from "react-native"
 import { LoginNavigationProp } from "../../types/RouteTypes";
 import { useNavigation } from "@react-navigation/native";
+import React from 'react'
 
 import RegisterForm from "../../components/Auth/RegisterForm";
 

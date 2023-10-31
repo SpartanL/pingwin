@@ -15,7 +15,6 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes';
 
 // Icons
 import { FontAwesome5 } from '@expo/vector-icons'
-import { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from './hooks/useAuth';
 

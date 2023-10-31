@@ -2,7 +2,6 @@ import { SafeAreaView, Text, View, Image, ScrollView, Platform, StyleSheet } fro
 import React from 'react'
 
 //Icons
-import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -23,6 +22,7 @@ const Home = () => {
                     <MaterialCommunityIcons name="penguin" size={45} color="#3498BF" />
                     <Text className="font-bold text-4xl" style={{ color: "#3498BF" }}>Pingwin</Text>
                 </View>
+
                 <View className="shadow-xl bg-white m-4 rounded-lg">
                     <View className="p-2">
                         <View className="flex flex-row items-center">

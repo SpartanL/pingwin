@@ -1,11 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAQu_JW21MThx4r-ZGZ-dikNC1jpUHtR98",
   authDomain: "pingwin-63b61.firebaseapp.com",
+  databaseURL: "https://pingwin-63b61-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "pingwin-63b61",
   storageBucket: "pingwin-63b61.appspot.com",
   messagingSenderId: "679529703297",
@@ -14,3 +16,4 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseapp = initializeApp(firebaseConfig)
+export const db = getDatabase(firebaseapp);
