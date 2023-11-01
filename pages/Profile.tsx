@@ -10,6 +10,8 @@ import { useAuth } from "../hooks/useAuth";
 // Icons 
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const styles = StyleSheet.create({
     AndroidSafeArea: {
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
 });
 
 const Home = () => {
-    const [user, setUser] = useState<any>();
+    const user = useSelector((state: RootState) => state.user.user)
     const [posts, setPosts] = useState([]);
 
     const navigation = useNavigation();
