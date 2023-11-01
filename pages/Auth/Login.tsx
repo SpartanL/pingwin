@@ -1,8 +1,8 @@
-import { SafeAreaView, Text, View, Pressable, Button } from "react-native"
+import { SafeAreaView, Text, View, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/native";
-import React from 'react'
+import { RegisterNavigationProp } from "../../types/RouteTypes";
+
 import LoginForm from "../../components/Auth/LoginForm"
-import { LoginNavigationProp, RegisterNavigationProp } from "../../types/RouteTypes";
 
 const Login = () => {
     const navigation = useNavigation<RegisterNavigationProp>();

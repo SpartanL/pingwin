@@ -1,49 +1,50 @@
+import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native"
+import { auth, firestore } from "../../FirebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+
 import { Entypo } from '@expo/vector-icons';
-import { firebaseapp, db } from "../../FirebaseConfig";
-import { getAuth, onAuthStateChanged, User, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import React, { useState } from "react";
-import { onValue, ref, set } from "firebase/database";
 
 const RegisterForm = () => {
-
-    const auth = getAuth(firebaseapp);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [user, setUser] = useState<string>('')
 
-    //Firebase
-
-    let userid = ''
-    const adddata = async (uid: string) => {
-        set(ref(db, 'Users/' + uid), {
-            image: "https://i.imgflip.com/7nwv7w.jpg",
-            bio: "Je suis un pingouin",
+    // Ajout données utilisateurs
+    const addUserData = async (uid:string) => {
+        await setDoc(doc(firestore, "users", uid), {
+            name: user,
             email: email,
-            nom: user,
-            pseudo: '@' + user.normalize('NFKD') 
+            bio: '',
+            image: '',
+            username: '@' + user.normalize('NFKD') 
                 .replace(/[\u0300-\u036f]/g, '') 
                 .trim() 
                 .toLowerCase() 
                 .replace(/[^a-z0-9 -]/g, '')
                 .replace(/\s+/g, '-') 
-                .replace(/-+/g, '-'),
-        })
+                .replace(/-+/g, '-')
+            ,
+        });
     }
+
+    let userid = ''
 
     const handleRegister = async () => {
         try {
-            await createUserWithEmailAndPassword(auth, email, password).then((UserCredential) => {
-                userid = UserCredential.user.uid;
+            await createUserWithEmailAndPassword(auth, email, password).then((user) => {
+                userid = user.user.uid;
             })
+
+            try {
+                await addUserData(userid)
+            } catch (error) {
+                alert(error)
+            }
         }
         catch (error) {
-            alert(error.message)
-        }
-        try {
-            await adddata(userid)
-        } catch (error) {
-            alert('Nom d\'utilisateur incorrect')
+            alert(error)
         }
     }
 

@@ -1,5 +1,5 @@
 import { SafeAreaView, Text, View, StyleSheet, Platform, TextInput, Pressable } from "react-native"
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { HomeNavigationProp } from "../types/RouteTypes";
 

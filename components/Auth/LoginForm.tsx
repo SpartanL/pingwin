@@ -1,13 +1,11 @@
-import { Pressable, Text, TextInput, View } from "react-native"
-import { Entypo } from '@expo/vector-icons';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseapp } from "../../FirebaseConfig";
 import { useState } from "react";
-import React from 'react'
+import { Pressable, Text, TextInput, View } from "react-native"
+import { auth } from "../../FirebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
+import { Entypo } from '@expo/vector-icons';
 
 const LoginForm = () => {
-    const auth = getAuth(firebaseapp);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
