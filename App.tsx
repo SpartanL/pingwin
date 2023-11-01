@@ -59,12 +59,12 @@ const ProfileStackScreen = () => {
 
 export default function App() {
   //const [isLogin, setIsLogin] = useState(false)
-  const { user } = useAuth()
+  const { session } = useAuth()
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {user ? (
+        {session ? (
           <Tab.Navigator initialRouteName='HomeScreen'>
             <Tab.Screen
               name="HomeScreen"

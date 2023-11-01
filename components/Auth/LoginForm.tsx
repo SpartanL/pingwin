@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native"
-import { auth } from "../../FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { supabase } from "../../supabase";
 
 import { Entypo } from '@expo/vector-icons';
 
@@ -10,11 +9,12 @@ const LoginForm = () => {
     const [password, setPassword] = useState<string>('')
 
     const login = async () => {
-        try {
-            await signInWithEmailAndPassword(auth, email, password)
-        } catch (error) {
-            console.log(error)
-        }
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+
+        if (error) console.log(error.message)
     }
 
     return (
@@ -30,6 +30,7 @@ const LoginForm = () => {
                         placeholder="Entrez votre adresse mail"
                         value={email}
                         onChangeText={(text) => setEmail(text)}
+                        autoCapitalize={'none'}
                     />
                 </View>
             </View>
@@ -46,6 +47,7 @@ const LoginForm = () => {
                         placeholder="Entrez votre mot de passe"
                         value={password}
                         onChangeText={(text) => setPassword(text)}
+                        autoCapitalize={'none'}
                     />
                 </View>
             </View>

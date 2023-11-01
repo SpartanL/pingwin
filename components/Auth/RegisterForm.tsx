@@ -5,47 +5,37 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 import { Entypo } from '@expo/vector-icons';
+import { supabase } from "../../supabase";
 
 const RegisterForm = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [user, setUser] = useState<string>('')
 
-    // Ajout données utilisateurs
-    const addUserData = async (uid:string) => {
-        await setDoc(doc(firestore, "users", uid), {
-            name: user,
-            email: email,
-            bio: '',
-            image: '',
-            username: '@' + user.normalize('NFKD') 
-                .replace(/[\u0300-\u036f]/g, '') 
-                .trim() 
-                .toLowerCase() 
-                .replace(/[^a-z0-9 -]/g, '')
-                .replace(/\s+/g, '-') 
-                .replace(/-+/g, '-')
-            ,
-        });
-    }
-
-    let userid = ''
-
     const handleRegister = async () => {
-        try {
-            await createUserWithEmailAndPassword(auth, email, password).then((user) => {
-                userid = user.user.uid;
-            })
-
-            try {
-                await addUserData(userid)
-            } catch (error) {
-                alert(error)
-            }
-        }
-        catch (error) {
-            alert(error)
-        }
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: user,
+                    username: '@' + user.normalize('NFKD') 
+                        .replace(/[\u0300-\u036f]/g, '') 
+                        .trim() 
+                        .toLowerCase() 
+                        .replace(/[^a-z0-9 -]/g, '')
+                        .replace(/\s+/g, '-') 
+                        .replace(/-+/g, '-')
+                    ,
+                }
+            },
+        })
+      
+        if (error) console.log(error.message)
+        if (!session) console.log('Please check your inbox for email verification!')
     }
 
     return (
@@ -61,6 +51,7 @@ const RegisterForm = () => {
                         placeholder="Entrez votre nom d'utilisateur"
                         value={user}
                         onChangeText={(text) => setUser(text)}
+                        autoCapitalize={'none'}
                     />
                 </View>
             </View>
@@ -77,6 +68,7 @@ const RegisterForm = () => {
                         placeholder="Entrez votre adresse mail"
                         value={email}
                         onChangeText={(text) => setEmail(text)}
+                        autoCapitalize={'none'}
                     />
                 </View>
             </View>
@@ -93,6 +85,7 @@ const RegisterForm = () => {
                         placeholder="Entrez votre mot de passe"
                         value={password}
                         onChangeText={(text) => setPassword(text)}
+                        autoCapitalize={'none'}
                     />
                 </View>
             </View>

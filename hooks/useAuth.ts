@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "../FirebaseConfig";
+import { supabase } from '../supabase'
+import { Session } from '@supabase/supabase-js'
 
 export function useAuth() {
-  const [user, setUser] = useState<User>();
+  const [session, setSession] = useState<Session | null>(null)
+
+  // TODO : ajouter info user dans store
 
   useEffect(() => {
-    const unsubscribeFromAuthStateChanged = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        // User is signed out
-        setUser(undefined);
-      }
-    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
 
-    return unsubscribeFromAuthStateChanged;
-  }, []);
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
 
   return {
-    user,
+    session,
   };
 }
