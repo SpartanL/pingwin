@@ -3,6 +3,8 @@ import { StyleSheet, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
+import PostCard from "../components/PostCard";
+import { PostType } from "../types/types";
 
 // Icons 
 import { Ionicons } from '@expo/vector-icons';
@@ -18,8 +20,12 @@ const styles = StyleSheet.create({
 });
 
 const Home = () => {
+    
     const user = useSelector((state: RootState) => state.user.user)
+    const posts = useSelector((state: RootState) => state.posts.posts)
+    const userPosts = posts.filter((post: PostType) => post.profiles.id === user.id) 
 
+    console.log(user)
     const navigation = useNavigation();
 
     return (
@@ -52,6 +58,13 @@ const Home = () => {
                         </View>
                     </View>
                 )}
+                <Pressable 
+                    className="bg-blue-500 rounded-lg p-2 m-2"
+                    onPress={
+                        () => navigation.navigate('Edit')
+                }>
+                    <Text className="text-center text-base text-white">Modifier votre profil</Text>
+                </Pressable>
                 <View className="flex flex-row justify-center items-center gap-x-8 p-2">
                     <View className="flex flex-wrap items-center gap-2">
                         <Text className="text-gray-500">Photos</Text>
@@ -67,8 +80,9 @@ const Home = () => {
                     </View>
                 </View>
             <Text className="text-center text-2xl font-bold">Posts</Text>
-
-            {/* TODO : flatlist with user posts */}
+            {userPosts.map((post: PostType) => (
+                <PostCard key={post.id} post={post} />
+            ))}
             </ScrollView>
         </SafeAreaView>
     )

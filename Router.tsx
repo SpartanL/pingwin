@@ -12,6 +12,7 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes'
 import Home from './pages/Home'
 import Post from './pages/Post'
 import Profile from './pages/Profile'
+import EditProfile from './pages/EditProfile'
 
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
@@ -47,6 +48,8 @@ const ProfileStackScreen = () => {
   return (
     <Stack.Navigator initialRouteName='Profile'>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+      <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
+
     </Stack.Navigator>
   )
 }
