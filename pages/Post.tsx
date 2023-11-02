@@ -32,7 +32,7 @@ const Post = () => {
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
             <View className="p-4">
-                <Text className="my-4">Poster quelque chose</Text>
+                <Text className="my-4 text-xl font-bold">Poster quelque chose</Text>
                 <TextInput
                     className="border border-gray-300 rounded shadow"
                     multiline
