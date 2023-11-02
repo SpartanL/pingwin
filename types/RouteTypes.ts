@@ -10,7 +10,7 @@ export type StackType = {
     Home: undefined,
     Post: undefined,
     Profile: undefined,
-    Edit: undefined,
+    EditProfile: undefined,
 }
 
 export type StackAuthType = {
@@ -18,11 +18,24 @@ export type StackAuthType = {
     Register: undefined,
 }
 
+// Home
 export type HomeNavigationProp = NativeStackNavigationProp<
     StackType,
     'Home'
 >
 
+// Profile
+export type ProfileNavigationProp = NativeStackNavigationProp<
+    StackType,
+    'Profile'
+>
+
+export type EditProfileNavigationProp = NativeStackNavigationProp<
+    StackType,
+    'EditProfile'
+>
+
+// Auth
 export type RegisterNavigationProp = NativeStackNavigationProp<
     StackAuthType,
     'Register'

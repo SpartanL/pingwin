@@ -48,61 +48,60 @@ const ProfileStackScreen = () => {
   return (
     <Stack.Navigator initialRouteName='Profile'>
       <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
-      <Stack.Screen name="Edit" component={EditProfile} options={{ headerShown: false }} />
-
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }
 
 const Router = () => {
-    const { session } = useAuth()
+  const { session } = useAuth()
 
-    return (
-        <NavigationContainer>
-            {session ? (
-                <Tab.Navigator initialRouteName='HomeScreen'>
-                    <Tab.Screen
-                        name="HomeScreen"
-                        component={HomeStackScreen}
-                        options={{
-                            headerShown: false,
-                            tabBarIcon: ({ color, size }) => (
-                                <FontAwesome5 name="igloo" size={size} color={color} />
-                            ),
-                            title: 'Accueil'
-                        }}
-                    />
-                    <Tab.Screen
-                        name="PostScreen"
-                        component={PostStackScreen}
-                        options={{
-                            headerShown: false,
-                            tabBarIcon: ({ color, size }) => (
-                                <Ionicons name="ios-cube-outline" size={size} color={color} />
-                            ),
-                            title: 'Post'
-                        }}
-                    />
-                    <Tab.Screen
-                        name="ProfileScreen"
-                        component={ProfileStackScreen}
-                        options={{
-                            headerShown: false,
-                            tabBarIcon: ({ color, size }) => (
-                                <MaterialCommunityIcons name="penguin" size={size} color={color} />
-                            ),
-                            title: 'Profile'
-                        }}
-                    />
-                </Tab.Navigator>
-            ) : (
-                <StackAuth.Navigator initialRouteName='Login'>
-                    <StackAuth.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                    <StackAuth.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                </StackAuth.Navigator>
-            )}
-        </NavigationContainer>
-    )
+  return (
+    <NavigationContainer>
+      {session ? (
+        <Tab.Navigator initialRouteName='HomeScreen'>
+          <Tab.Screen
+            name="HomeScreen"
+            component={HomeStackScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="igloo" size={size} color={color} />
+              ),
+              title: 'Accueil'
+            }}
+          />
+          <Tab.Screen
+            name="PostScreen"
+            component={PostStackScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="ios-cube-outline" size={size} color={color} />
+              ),
+              title: 'Post'
+            }}
+          />
+          <Tab.Screen
+            name="ProfileScreen"
+            component={ProfileStackScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <MaterialCommunityIcons name="penguin" size={size} color={color} />
+              ),
+              title: 'Profil'
+            }}
+          />
+        </Tab.Navigator>
+      ) : (
+        <StackAuth.Navigator initialRouteName='Login'>
+          <StackAuth.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <StackAuth.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        </StackAuth.Navigator>
+      )}
+    </NavigationContainer>
+  )
 }
 
 export default Router
