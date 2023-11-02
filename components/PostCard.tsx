@@ -29,7 +29,11 @@ const PostCard = ({ post }: PostCardProps) => {
         <View className="shadow-xl bg-white m-4 rounded-lg">
             <View className="p-2">
                 <View className="flex flex-row items-center">
-                    <Image source={require('../assets/profilPicture.jpg')} className="rounded-full" style={{ height: 80, width: 80 }} />
+                    {post.profiles.avatar_url ? (
+                            <Image className="rounded-full" source={{ uri: post.profiles.avatar_url, width: 80, height: 80 }} />
+                        ) : (
+                            <Image className="rounded-full" source={require('../assets/profilPicture.jpg')} style={{width: 80, height: 80}} />
+                        )}
                     <View className="mx-2">
                         <Text className="font-bold text-lg">{post.profiles.full_name}</Text>
                         <Text className="text-gray-500">{post.profiles.username}</Text>
