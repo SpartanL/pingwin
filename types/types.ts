@@ -1,14 +1,14 @@
 export type UserType = {
     id: string
-    name: string
-    email: string
     username: string
+    full_name: string
+    avatar_url: string
     bio: string
-    image: string
 }
 
 export type PostType = {
     id: string
     content: string
-    //user: UserType
+    created_at: string
+    profiles: UserType
 }

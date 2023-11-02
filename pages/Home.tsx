@@ -3,6 +3,11 @@ import { SafeAreaView, Text, View, Platform, StyleSheet, FlatList } from "react-
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PostCard from "../components/PostCard";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../store/store";
+import { useEffect } from "react";
+import { fetchPosts } from "../store/postSlice";
+import { supabase } from "../supabase";
 
 //Android View
 const styles = StyleSheet.create({
@@ -13,37 +18,14 @@ const styles = StyleSheet.create({
     }
 });
 
-const posts = [
-    {
-        id: "1",
-        user: {
-            name: "John Doe",
-            username: "@johndoe",
-            image: "https://picsum.photos/200/300"
-        },
-        content: "Lorem ipsum dolor sit amet"
-    },
-    {
-        id: "2",
-        user: {
-            name: "John Doe",
-            username: "@johndoe",
-            image: "https://picsum.photos/200/300"
-        },
-        content: "Lorem ipsum dolor sit amet"
-    },
-    {
-        id: "3",
-        user: {
-            name: "John Doe",
-            username: "@johndoe",
-            image: "https://picsum.photos/200/300"
-        },
-        content: "Lorem ipsum dolor sit amet"
-    }
-]
-
 const Home = () => {
+    const posts = useSelector((state: RootState) => state.posts.posts)
+    const dispatch = useAppDispatch()
+
+    useEffect(()=>{
+        dispatch(fetchPosts())
+    },[dispatch])
+
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
             <View className="flex flex-row items-center justify-center">
