@@ -2,6 +2,9 @@ import { SafeAreaView, Text, View, StyleSheet, Platform, TextInput, Pressable } 
 import { useState } from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { HomeNavigationProp } from "../types/RouteTypes";
+import { RootState, useAppDispatch } from "../store/store";
+import { createPost } from "../store/postSlice";
+import { useSelector } from "react-redux";
 
 //Android View
 const styles = StyleSheet.create({
@@ -13,11 +16,16 @@ const styles = StyleSheet.create({
 });
 
 const Post = () => {
-    const [text, setText] = useState('')
-    const navigation = useNavigation<HomeNavigationProp>();
+    const user = useSelector((state: RootState) => state.user.user)
+    const [text, setText] = useState<string>('')
+    const navigation = useNavigation<HomeNavigationProp>()
+    const dispatch = useAppDispatch()
 
     const handlePost = async () => {
-        console.log(text)
+        dispatch(createPost({content: text, userId: user.id}))
+        setText('')
+
+        navigation.navigate('Home')
     }
 
     return (
