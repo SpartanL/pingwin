@@ -9,5 +9,6 @@ export type UserType = {
 export type PostType = {
     id: string
     content: string
-    //user: UserType
+    created_at: string
+    profiles: UserType
 }

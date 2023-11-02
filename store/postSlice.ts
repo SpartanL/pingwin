@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { PostType } from '../types/types'
-import { collection, getDocs } from 'firebase/firestore'
-import { firestore } from '../FirebaseConfig'
+import { supabase } from '../supabase'
 
 type PostInitialState = {
   posts: PostType[]
@@ -12,23 +11,18 @@ const initialState: PostInitialState = {
 }
 
 // Get all posts
-export const fetchPosts = createAsyncThunk(
+export const fetchPosts = createAsyncThunk<PostType[]>(
   'post/fetchPosts',
   async () => {
-    const querySnapshot = await getDocs(collection(firestore, 'posts'));
-    /*const posts = querySnapshot.docs.map((doc)=>({
-      id: doc.id,
-      ...doc.data(),
+    const { data, error } = await supabase
+      .from('posts')
+      .select(`*, profiles(*)`)
 
-    }))*/
-    querySnapshot.forEach((doc) => {
-      const post = doc.data()
-      console.log(post)
-      post.userRef.get().then((user) => {
-        post.user = user.data()
-      })
-      console.log(post)
-    });
+    if (error) {
+      throw error
+    }
+
+    return data as PostType[]
   }
 )
 

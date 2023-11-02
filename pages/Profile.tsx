@@ -4,9 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from "react";
 import { supabase } from "../supabase";
 
-// Hooks
-import { useAuth } from "../hooks/useAuth";
-
 // Icons 
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -22,7 +19,6 @@ const styles = StyleSheet.create({
 
 const Home = () => {
     const user = useSelector((state: RootState) => state.user.user)
-    const [posts, setPosts] = useState([]);
 
     const navigation = useNavigation();
 

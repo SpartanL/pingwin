@@ -2,16 +2,21 @@ import { View, Text, Image } from 'react-native'
 
 //Icons
 import { Ionicons } from '@expo/vector-icons'
+import { PostType } from '../types/types';
 
-const PostCard = ({ post }) => {
+type PostCardProps = {
+    post: PostType
+};
+
+const PostCard = ({ post }: PostCardProps) => {
     return (
         <View className="shadow-xl bg-white m-4 rounded-lg">
             <View className="p-2">
                 <View className="flex flex-row items-center">
                     <Image source={require('../assets/profilPicture.jpg')} className="rounded-full" style={{ height: 80, width: 80 }} />
                     <View className="mx-2">
-                        <Text className="font-bold text-lg">{post.user.name}</Text>
-                        <Text className="text-gray-500">{post.user.username}</Text>
+                        <Text className="font-bold text-lg">{post.profiles.full_name}</Text>
+                        <Text className="text-gray-500">{post.profiles.username}</Text>
                     </View>
                 </View>
                 <View className="p-4">
