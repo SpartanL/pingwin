@@ -1,13 +1,13 @@
 import { SafeAreaView, Text, View, Platform, StyleSheet, FlatList } from "react-native"
-
-
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import PostCard from "../components/PostCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../store/store";
 import { useEffect } from "react";
+
 import { fetchPosts } from "../store/postSlice";
-import { supabase } from "../supabase";
+
+import PostCard from "../components/PostCard";
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 //Android View
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const Home = () => {
                     keyExtractor={(item) => item.id}
                 />
             ) : (
-                <Text className="text-center my-4 text-white">Aucun post</Text>
+                <Text className="text-center my-4">Aucun post</Text>
             )}
         </SafeAreaView>
     )

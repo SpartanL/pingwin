@@ -11,4 +11,13 @@ export type PostType = {
     content: string
     created_at: string
     profiles: UserType
+    likes: LikeType[]
+}
+
+export type LikeType = {
+    id: string
+    user: string
+    post: {
+        id: string
+    }
 }

@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View, StyleSheet, Platform, TextInput, Pressable } from "react-native"
+import { SafeAreaView, Text, View, StyleSheet, Platform, TextInput, TouchableOpacity } from "react-native"
 import { useState } from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { HomeNavigationProp } from "../types/RouteTypes";
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 
 const Post = () => {
     const user = useSelector((state: RootState) => state.user.user)
+    const postLoading = useSelector((state: RootState) => state.posts.postLoading)
     const [text, setText] = useState<string>('')
     const navigation = useNavigation<HomeNavigationProp>()
     const dispatch = useAppDispatch()
@@ -40,13 +41,13 @@ const Post = () => {
                     value={text}
                     onChangeText={(text) => setText(text)}
                 />
-                <Pressable 
+                <TouchableOpacity 
                     className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md my-4"
                     onPress={handlePost}
-                    disabled={text.length === 0}
+                    disabled={text.length === 0 || postLoading}
                 >
                     <Text className="text-center text-white font-semibold">Poster</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     )
