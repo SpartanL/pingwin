@@ -1,14 +1,30 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '../store/store'
+
+import { PostType } from '../types/types'
 
 //Icons
 import { Ionicons } from '@expo/vector-icons'
-import { PostType } from '../types/types';
+import { addLike, removeLike } from '../store/postSlice'
 
 type PostCardProps = {
     post: PostType
 };
 
 const PostCard = ({ post }: PostCardProps) => {
+    const user = useSelector((state: RootState) => state.user.user)
+    const likeLoading = useSelector((state: RootState) => state.posts.likeLoading)
+    const dispatch = useAppDispatch()
+
+    // Check if the user has liked the post
+    const isLiked = post.likes.find((like) => like.user === user.id)
+
+    // Handle like or unlike
+    const handleLike = () => {
+        isLiked ? dispatch(removeLike({ postId: post.id, userId: user.id })) : dispatch(addLike({ postId: post.id, userId: user.id }))
+    }
+
     return (
         <View className="shadow-xl bg-white m-4 rounded-lg">
             <View className="p-2">
@@ -23,8 +39,10 @@ const PostCard = ({ post }: PostCardProps) => {
                     <Text>{post.content}</Text>
                 </View>
                 <View className="p-4 flex flex-row items-center">
-                    <Ionicons name="ios-cube-outline" size={24} color="#30D9D9" />
-                    <Text className="pl-2 font-semibold">600</Text>
+                    <TouchableOpacity onPress={handleLike} disabled={likeLoading}>
+                        <Ionicons name="ios-cube-outline" size={24} color={isLiked ? '#30D9D9':'gray'} />
+                    </TouchableOpacity>
+                    <Text className="pl-2 font-semibold">{post.likes.length}</Text>
                 </View>
             </View>
         </View>
