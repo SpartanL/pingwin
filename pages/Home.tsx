@@ -1,7 +1,7 @@
-import { SafeAreaView, Text, View, Platform, StyleSheet, FlatList } from "react-native"
+import { SafeAreaView, Text, View, Platform, StyleSheet, FlatList, RefreshControl } from "react-native"
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../store/store";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { fetchPosts } from "../store/postSlice";
 
@@ -21,10 +21,20 @@ const styles = StyleSheet.create({
 const Home = () => {
     const posts = useSelector((state: RootState) => state.posts.posts)
     const dispatch = useAppDispatch()
+    const [refreshing, setRefreshing] = useState<boolean>(false);
 
-    useEffect(()=>{
+    const onRefresh = useCallback(() => {
+        setRefreshing(true)
+
+        setTimeout(() => {
+            setRefreshing(false)
+            dispatch(fetchPosts())
+        }, 800)
+    }, [])
+
+    useEffect(() => {
         dispatch(fetchPosts())
-    },[dispatch])
+    }, [dispatch])
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
@@ -36,8 +46,11 @@ const Home = () => {
             {posts.length > 0 ? (
                 <FlatList
                     data={posts}
-                    renderItem={({item}) => <PostCard post={item} />}
+                    renderItem={({ item }) => <PostCard post={item} />}
                     keyExtractor={(item) => item.id}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 />
             ) : (
                 <Text className="text-center my-4">Aucun post</Text>

@@ -67,6 +67,7 @@ export const createPost = createAsyncThunk<PostType, CreatePostPayload>(
     }
 
     data[0].likes = []
+    data[0].comments = []
 
     return data[0] as PostType
   }
@@ -157,54 +158,54 @@ export const addComment = createAsyncThunk<PostType, AddCommentPayload>(
 )
 
 export const postSlice = createSlice({
-    name: 'post',
-    initialState,
-    reducers: {
-      //
-    },
-    extraReducers: (builder) => {
-      builder
-        .addCase(fetchPosts.fulfilled, (state, action) => {
-          state.posts = action.payload
-        })
-        .addCase(createPost.pending, (state, action)=>{
-          state.postLoading = true
-        })
-        .addCase(createPost.fulfilled, (state, action)=>{
-          state.postLoading = false
-          state.posts = [action.payload, ...state.posts]
-        })
-        .addCase(addLike.pending, (state, action)=>{
-          state.likeLoading = true
-        })
-        .addCase(addLike.fulfilled, (state, action)=>{
-          state.likeLoading = false
-          const index = state.posts.findIndex(post => post.id === action.payload.id)
-          if (index !== -1) {
-            state.posts[index] = action.payload
-          }
-        })
-        .addCase(removeLike.pending, (state, action)=>{
-          state.likeLoading = true
-        })
-        .addCase(removeLike.fulfilled, (state, action)=>{
-          state.likeLoading = false
-          const index = state.posts.findIndex(post => post.id === action.payload.id)
-          if (index !== -1) {
-            state.posts[index] = action.payload
-          }
-        })
-        .addCase(addComment.pending, (state, action)=>{
-          state.commentLoading = true
-        })
-        .addCase(addComment.fulfilled, (state, action)=>{
-          state.commentLoading = false
-          const index = state.posts.findIndex(post => post.id === action.payload.id)
-          if (index !== -1) {
-            state.posts[index] = action.payload
-          }
-        })
-    }
+  name: 'post',
+  initialState,
+  reducers: {
+    //
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.posts = action.payload
+      })
+      .addCase(createPost.pending, (state, action) => {
+        state.postLoading = true
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.postLoading = false
+        state.posts = [action.payload, ...state.posts]
+      })
+      .addCase(addLike.pending, (state, action) => {
+        state.likeLoading = true
+      })
+      .addCase(addLike.fulfilled, (state, action) => {
+        state.likeLoading = false
+        const index = state.posts.findIndex(post => post.id === action.payload.id)
+        if (index !== -1) {
+          state.posts[index] = action.payload
+        }
+      })
+      .addCase(removeLike.pending, (state, action) => {
+        state.likeLoading = true
+      })
+      .addCase(removeLike.fulfilled, (state, action) => {
+        state.likeLoading = false
+        const index = state.posts.findIndex(post => post.id === action.payload.id)
+        if (index !== -1) {
+          state.posts[index] = action.payload
+        }
+      })
+      .addCase(addComment.pending, (state, action) => {
+        state.commentLoading = true
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.commentLoading = false
+        const index = state.posts.findIndex(post => post.id === action.payload.id)
+        if (index !== -1) {
+          state.posts[index] = action.payload
+        }
+      })
+  }
 })
 
 export default postSlice.reducer
