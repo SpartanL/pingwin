@@ -40,6 +40,7 @@ export const fetchPosts = createAsyncThunk<PostType[]>(
       .from('posts')
       .select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
       .order('created_at', { ascending: false })
+      .order('created_at', { foreignTable: 'comments', ascending: false })
 
     if (error) {
       throw error
