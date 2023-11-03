@@ -68,7 +68,7 @@ const Home = () => {
                 <View className="flex flex-row justify-center items-center gap-x-8 p-2">
                     <View className="flex flex-wrap items-center gap-2">
                         <Text className="text-gray-500">Posts</Text>
-                        <Text className="text-2xl">{posts.length}</Text>
+                        <Text className="text-2xl">{userPosts.length}</Text>
                     </View>
                     <View className="flex flex-wrap items-center gap-2">
                         <Text className="text-gray-500">Followers</Text>

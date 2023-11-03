@@ -56,7 +56,7 @@ export const createPost = createAsyncThunk<PostType, CreatePostPayload>(
     const { data, error } = await supabase.from('posts').insert({
       content: payload.content,
       user: payload.userId
-    }).select(`*, profiles(*)`)
+    }).select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
 
     if (error) {
       throw error
@@ -65,9 +65,6 @@ export const createPost = createAsyncThunk<PostType, CreatePostPayload>(
     if (data === null) {
       throw new Error('Data is null')
     }
-
-    data[0].likes = []
-    data[0].comments = []
 
     return data[0] as PostType
   }
@@ -86,7 +83,7 @@ export const addLike = createAsyncThunk<PostType, LikePostPayload>(
 
     const { data, error } = await supabase
       .from('posts')
-      .select(`*, profiles(*), likes(*)`)
+      .select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
       .eq('id', payload.postId)
 
     if (error) {
@@ -113,7 +110,7 @@ export const removeLike = createAsyncThunk<PostType, LikePostPayload>(
 
     const { data, error } = await supabase
       .from('posts')
-      .select(`*, profiles(*), likes(*)`)
+      .select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
       .eq('id', payload.postId)
 
     if (error) {
