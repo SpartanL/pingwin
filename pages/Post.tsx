@@ -37,12 +37,13 @@ const Post = () => {
                     className="border border-gray-300 rounded shadow"
                     multiline
                     maxLength={240}
-                    style={{height: 100}}
+                    style={{height: 120}}
                     value={text}
                     onChangeText={(text) => setText(text)}
                 />
+                <Text>{text.length}/240</Text>
                 <TouchableOpacity 
-                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md my-4"
+                    className={"px-4 py-2 bg-blue-500 rounded-md my-4 " + (text.length === 0 ? 'bg-blue-50' : '')}
                     onPress={handlePost}
                     disabled={text.length === 0 || postLoading}
                 >

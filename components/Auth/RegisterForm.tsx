@@ -9,10 +9,34 @@ import { supabase } from "../../supabase";
 
 const RegisterForm = () => {
     const [email, setEmail] = useState<string>('')
+    const [emailError, setEmailError] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [passwordError, setPasswordError] = useState<string>('')
     const [user, setUser] = useState<string>('')
+    const [userError, setUserError] = useState<string>('')
+    const [error, setError] = useState<string>('')
 
     const handleRegister = async () => {
+        setError('')
+        setEmailError('')
+        setPasswordError('')
+        setUserError('')
+
+        if (user.length === 0) {
+            setUserError('Veuillez entrer votre nom d\'utilisateur');
+            return
+        }
+
+        if (email.length === 0) {
+            setEmailError('Veuillez entrer votre adresse mail');
+            return
+        }
+
+        if (password.length === 0) {
+            setPasswordError('Veuillez entrer votre mot de passe');
+            return
+        }
+
         const {
             data: { session },
             error,
@@ -34,8 +58,7 @@ const RegisterForm = () => {
             },
         })
       
-        if (error) console.log(error.message)
-        if (!session) console.log('Please check your inbox for email verification!')
+        if (error) setError(error.message)
     }
 
     return (
@@ -54,6 +77,7 @@ const RegisterForm = () => {
                         autoCapitalize={'none'}
                     />
                 </View>
+                {userError && <Text className="text-red-500 my-1">{userError}</Text>}
             </View>
 
 
@@ -71,6 +95,7 @@ const RegisterForm = () => {
                         autoCapitalize={'none'}
                     />
                 </View>
+                {emailError && <Text className="text-red-500 my-1">{emailError}</Text>}
             </View>
 
             <View className="w-full mb-4">
@@ -88,7 +113,10 @@ const RegisterForm = () => {
                         autoCapitalize={'none'}
                     />
                 </View>
+                {passwordError && <Text className="text-red-500 my-1">{passwordError}</Text>}
             </View>
+
+            {error && <Text className="text-red-500 mb-4">{error}</Text>}
 
             <Pressable className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md" onPress={handleRegister}>
                 <Text className="text-center text-white font-semibold">Inscription</Text>

@@ -25,12 +25,16 @@ export function useAuth() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
-      getProfile(session).then(user => dispatch(setUser(user)))
+      if(session) {
+        getProfile(session).then(user => dispatch(setUser(user)))
+      }
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
-      getProfile(session).then(user => dispatch(setUser(user)))
+      if(session) {
+        getProfile(session).then(user => dispatch(setUser(user)))
+      }
     })
   }, [])
 
