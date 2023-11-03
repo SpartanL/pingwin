@@ -6,12 +6,7 @@ type PostInitialState = {
   posts: PostType[]
   postLoading: boolean
   likeLoading: boolean
-}
-
-const initialState: PostInitialState = {
-  posts: [],
-  postLoading: false,
-  likeLoading: false
+  commentLoading: boolean
 }
 
 type CreatePostPayload = {
@@ -24,13 +19,26 @@ type LikePostPayload = {
   userId: string
 }
 
+type AddCommentPayload = {
+  postId: string
+  userId: string
+  content: string
+}
+
+const initialState: PostInitialState = {
+  posts: [],
+  postLoading: false,
+  likeLoading: false,
+  commentLoading: false
+}
+
 // Get all posts
 export const fetchPosts = createAsyncThunk<PostType[]>(
   'post/fetchPosts',
   async () => {
     const { data, error } = await supabase
       .from('posts')
-      .select(`*, profiles(*), likes(*)`)
+      .select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
       .order('created_at', { ascending: false })
 
     if (error) {
@@ -119,6 +127,35 @@ export const removeLike = createAsyncThunk<PostType, LikePostPayload>(
   }
 )
 
+// Add comment to a post
+export const addComment = createAsyncThunk<PostType, AddCommentPayload>(
+  'post/addComment',
+  async (payload) => {
+    const { data: commentData, error: commentError } = await supabase
+      .from('comments')
+      .insert({
+        post: payload.postId,
+        user: payload.userId,
+        content: payload.content
+      })
+
+    const { data, error } = await supabase
+      .from('posts')
+      .select(`*, profiles(*), likes(*), comments(*, profiles(full_name, username, avatar_url))`)
+      .eq('id', payload.postId)
+
+    if (error) {
+      throw error
+    }
+
+    if (data === null || data.length === 0) {
+      throw new Error('Post not found')
+    }
+
+    return data[0] as PostType
+  }
+)
+
 export const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -152,6 +189,16 @@ export const postSlice = createSlice({
         })
         .addCase(removeLike.fulfilled, (state, action)=>{
           state.likeLoading = false
+          const index = state.posts.findIndex(post => post.id === action.payload.id)
+          if (index !== -1) {
+            state.posts[index] = action.payload
+          }
+        })
+        .addCase(addComment.pending, (state, action)=>{
+          state.commentLoading = true
+        })
+        .addCase(addComment.fulfilled, (state, action)=>{
+          state.commentLoading = false
           const index = state.posts.findIndex(post => post.id === action.payload.id)
           if (index !== -1) {
             state.posts[index] = action.payload

@@ -34,7 +34,7 @@ const Post = () => {
             <View className="p-4">
                 <Text className="my-4 text-xl font-bold">Poster quelque chose</Text>
                 <TextInput
-                    className="border border-gray-300 rounded shadow"
+                    className="border border-gray-300 rounded"
                     multiline
                     maxLength={240}
                     style={{height: 120}}

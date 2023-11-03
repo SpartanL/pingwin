@@ -10,6 +10,7 @@ import { StackAuthType, StackType, TabType } from './types/RouteTypes'
 
 // Pages
 import Home from './pages/Home'
+import Details from './pages/Details'
 import Post from './pages/Post'
 import Profile from './pages/Profile'
 import EditProfile from './pages/EditProfile'
@@ -32,6 +33,7 @@ const HomeStackScreen = () => {
   return (
     <Stack.Navigator initialRouteName='Home'>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="Details" component={Details} options={{ headerShown: false }} />
     </Stack.Navigator>
   )
 }

@@ -1,4 +1,6 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { PostType } from './types'
+import { RouteProp } from '@react-navigation/native'
 
 export type TabType = {
     HomeScreen: undefined,
@@ -8,6 +10,7 @@ export type TabType = {
 
 export type StackType = {
     Home: undefined,
+    Details: { post: PostType },
     Post: undefined,
     Profile: undefined,
     EditProfile: undefined,
@@ -23,6 +26,18 @@ export type HomeNavigationProp = NativeStackNavigationProp<
     StackType,
     'Home'
 >
+
+// Details
+export type DetailsNavigationProp = NativeStackNavigationProp<
+    StackType,
+    'Details'
+>
+
+export type DetailsRouteProp = RouteProp<
+    StackType,
+    'Details'
+>
+
 
 // Profile
 export type ProfileNavigationProp = NativeStackNavigationProp<
